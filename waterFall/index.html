@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+  <meta charset="utf-8">
+  <title>瀑布流</title>
+</head>
+<body>
+ <div class='content'>
+   <!-其中h1,h2,h3表示随机的宽度-->
+   <div class='pic h1'>
+     1
+   </div> 
+   <div class='pic h2'>
+   2
+   </div>
+   <div class='pic h3'>
+     3
+   </div>
+   <div class='pic h3'>
+     4
+   </div>
+   <div class='pic h1'>
+     5
+   </div>
+   <div class='pic h2'>
+     6
+   </div>
+   <div class='pic h3'>
+     7
+   </div>
+   <div class='pic h1'>
+     8
+   </div>
+   <div class='pic h1'>
+     9
+   </div>
+   <div class='pic h2'>
+     10
+   </div>
+   <div class='pic h2'>
+     11
+   </div>
+   <div class='pic h1'>
+     12
+   </div>
+   <div class='pic h3'>
+     13
+   </div>
+   <div class='pic h1'>
+     14
+   </div>
+    <div class='pic h1'>
+     15
+   </div>
+   <div class='pic h2'>
+     16
+   </div>
+   <div class='pic h2'>
+     17
+   </div>
+   <div class='pic h1'>
+     18
+   </div>
+ </div>
+  <style>
+ 
+ * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.content{
+  position: relative;
+}
+
+.pic{			
+  position: absolute;
+  
+  width: 200px;
+  margin-right: 10px;
+  margin-top: 10px;
+  transition: all 1s;
+}
+
+.h1{
+  height: 200px;
+  background-color: #f4b300;
+}
+
+.h2{
+  height: 300px;
+  background-color: #691BB8;
+}
+
+.h3{
+  height: 400px;
+  background-color: #006ac1;
+}
+
+  </style>
+  
+  
+  
+  <script>
+  
+  render();
+
+ $(window).on('resize', function(){
+            render();
+        });
+       
+
+ function render() {
+            var windowWidth = $(window).width(),
+                itemWidth =$('.pic').eq(0).outerWidth(true),
+                itemList = $('.pic'),
+                amountColumn = parseFloat(windowWidth/itemWidth),
+                columnList = [];
+            for(var i=0;i<amountColumn-1;i++){
+                columnList.push(0);
+            }
+            itemList.each(function () {
+                var minHeight = columnList[0];
+                var index = 0;
+                var cur = $(this);
+                for(var i=0;i<columnList.length;i++){
+                    if(columnList[i] < minHeight){
+                        minHeight = columnList[i];
+                        index = i;
+                    }
+                }
+                cur.css({
+                    left : itemWidth*index,
+                    top : minHeight
+                });
+                 columnList[index] = cur.outerHeight(true) + columnList[index];
+            });
+        }
+       
+  </script>
+  
+  
+  
+  
+  
+  
+</body>
+</html>
